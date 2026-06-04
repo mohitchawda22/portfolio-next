@@ -6,13 +6,13 @@ import { motion } from 'framer-motion'
 const backgroundItems = [
   {
     label: 'EDUCATION',
-    title: 'Navrachana University, Vadodara, Gujarat',
+    title: 'Parul University, Vadodara, Gujarat',
     subtitle: 'B.Tech, Computer Science & Engineering (2021-2025)',
   },
   {
     label: 'EXPERIENCE',
     title: 'Yudiz Solutions Pvt. Ltd.',
-    subtitle: 'Frontend Developer (January 2026 - Present)',
+    subtitle: 'Frontend Developer (January 2025 - Present)',
   },
   {
     label: 'FOCUS',
