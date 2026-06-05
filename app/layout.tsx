@@ -1,6 +1,11 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { PixelWipePreloader } from '@/components/PixelWipePreloader'
+import { PRELOADER_INIT_SCRIPT } from '@/lib/preloader-theme'
+import { ThemeProvider } from '@/components/theme-provider'
+import { ThemeTransitionProvider } from '@/components/ThemeTransitionProvider'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -34,9 +39,31 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning data-preloader="active" data-preloader-lock>
       <body className="font-sans antialiased">
-        {children}
+        <Script id="preloader-init" strategy="beforeInteractive">
+          {PRELOADER_INIT_SCRIPT}
+        </Script>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+          themes={['light', 'dark', 'system']}
+        >
+          <ThemeTransitionProvider>
+            <PixelWipePreloader
+              revealStyle="center"
+              counterDuration={3200}
+              revealDuration={1400}
+              speed={1}
+              gridSize={46}
+              minDisplayTime={700}
+            >
+              {children}
+            </PixelWipePreloader>
+          </ThemeTransitionProvider>
+        </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

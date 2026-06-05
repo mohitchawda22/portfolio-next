@@ -12,8 +12,13 @@
   :root {
     --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-geist-mono);
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    --preloader-surface: #000000;
+    --theme-transition-surface: #f4f0e8;
+    --card-hover-bg: #e3ff47;
+    --card-hover-fg: #0f0f0f;
+    --card-hover-shadow: #0f0f0f;
+    --background: 40 33% 94%;
+    --foreground: 0 0% 6%;
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
@@ -47,6 +52,10 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   .dark {
+    --theme-transition-surface: #000000;
+    --card-hover-bg: #000000;
+    --card-hover-fg: #ffffff;
+    --card-hover-shadow: #ffffff;
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
     --card: 0 0% 3.9%;
@@ -85,8 +94,75 @@
 @layer base {
   * {
     @apply border-border;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
+
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  html {
+    @apply bg-background text-foreground;
+  }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  html[data-preloader-lock] {
+    overflow: hidden;
+    background-color: var(--preloader-surface) !important;
+  }
+
+  html[data-preloader-lock] body {
+    overflow: hidden;
+    background-color: var(--preloader-surface) !important;
+  }
+
+  html[data-preloader='active']::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 10049;
+    background: var(--preloader-surface);
+    pointer-events: all;
+  }
+
+  html[data-preloader-canvas='ready']::before {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply border border-white/20 bg-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-2xl dark:border-white/10 dark:bg-black/30 dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)];
+  }
+
+  .bg-section-grid {
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+    background-size: 52px 52px;
+  }
+
+  .dark .bg-section-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  }
+
+  .bg-section-grid-projects {
+    background-image:
+      linear-gradient(to right, rgba(227, 255, 71, 0.16) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(227, 255, 71, 0.16) 1px, transparent 1px);
+    background-size: 52px 52px;
+  }
+
+  .dark .bg-section-grid-projects {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
   }
 }

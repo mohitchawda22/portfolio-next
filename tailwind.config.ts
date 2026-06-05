@@ -63,6 +63,18 @@ const config: Config = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        portfolio: {
+          cream: "#F4F0E8",
+          sand: "#EDE8DF",
+          lime: "#F0FFD6",
+          ink: "#0F0F0F",
+          accent: "#E3FF47",
+          contact: "#1A1028",
+          hero: {
+            light: "#FAFAF8",
+            ink: "#121212",
+          },
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

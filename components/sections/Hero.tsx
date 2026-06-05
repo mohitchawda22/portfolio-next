@@ -2,9 +2,16 @@
 
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import { usePreloaderComplete } from '@/components/PixelWipePreloader'
+
+const slideTransition = {
+  duration: 1.2,
+  ease: [0.76, 0, 0.24, 1] as const,
+}
 
 export function Hero() {
   const containerRef = useRef<HTMLElement>(null)
+  const isReady = usePreloaderComplete()
   
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -25,23 +32,23 @@ export function Hero() {
         <motion.div className="absolute inset-0 pointer-events-auto z-20" style={{ x: leftX }}>
           {/* Inner Left side (Slide In Effect) */}
           <motion.div 
-            initial={{ x: "-100%" }}
-            animate={{ x: 0 }}
-            transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
-            className="absolute inset-0 bg-white"
+            initial={false}
+            animate={{ x: isReady ? 0 : '-100%' }}
+            transition={slideTransition}
+            className="absolute inset-0 bg-portfolio-cream dark:bg-white"
             style={{
               clipPath: 'polygon(0 0, 60% 0, 40% 100%, 0% 100%)'
             }}
           >
             <div className="absolute left-8 top-1/2 transform -translate-y-1/2 w-2/5">
-              <div className="text-black">
+              <div className="text-portfolio-ink dark:text-black">
                 <h1 className="text-8xl font-black leading-none mb-4 transform -rotate-2">
                   MOHIT
                 </h1>
                 <div className="text-2xl font-bold mb-8 transform rotate-1">
                   CREATIVE DEVELOPER
                 </div>
-                <div className="w-32 h-1 bg-black mb-8"></div>
+                <div className="mb-8 h-1 w-32 bg-portfolio-accent/100 dark:bg-black"></div>
                 <p className="text-lg font-medium leading-tight">
                   CRAFTING DIGITAL<br/>
                   EXPERIENCES THAT<br/>
@@ -56,23 +63,23 @@ export function Hero() {
         <motion.div className="absolute inset-0 pointer-events-auto  z-20" style={{ x: rightX }}>
           {/* Inner Right side (Slide In Effect) */}
           <motion.div 
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
-            className="absolute inset-0 bg-black"
+            initial={false}
+            animate={{ x: isReady ? 0 : '100%' }}
+            transition={slideTransition}
+            className="absolute inset-0 bg-portfolio-sand dark:bg-black"
             style={{
               clipPath: 'polygon(60% 0, 100% 0, 100% 100%, 40% 100%)'
             }}
           >
             <div className="absolute right-8 top-1/2 transform -translate-y-1/2 w-2/5 text-right">
-              <div className="text-white">
+              <div className="text-portfolio-ink dark:text-white">
                 <h1 className="text-8xl font-black leading-none mb-4 transform rotate-2">
                   CHAWDA
                 </h1>
                 <div className="text-2xl font-bold mb-8 transform -rotate-1">
                   FRONTEND DEVELOPER
                 </div>
-                <div className="w-32 h-1 bg-white mb-8 ml-auto"></div>
+                <div className="mb-8 ml-auto h-1 w-32 bg-portfolio-accent/80 dark:bg-white"></div>
                 <p className="text-lg font-medium leading-tight">
                   CODE IS ART<br/>
                   ART IS CODE<br/>
@@ -84,15 +91,21 @@ export function Hero() {
         </motion.div>
 
         {/* Scroll indicator with fade out on scroll */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2, duration: 0.8 }}
-          style={{ opacity: indicatorOpacity }}
+        <motion.div
+          initial={false}
+          animate={{
+            opacity: isReady ? 1 : 0,
+            y: isReady ? 0 : 20,
+          }}
+          transition={{ delay: isReady ? 1.2 : 0, duration: 0.8 }}
           className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center pointer-events-auto z-20"
         >
-          <div className="w-px h-16 bg-white mx-auto mb-4 animate-pulse mix-blend-difference"></div>
-          <div className="text-xs font-bold tracking-widest mix-blend-difference">SCROLL</div>
+          <motion.div style={{ opacity: indicatorOpacity }}>
+            <div className="mx-auto mb-4 h-16 w-px animate-pulse bg-portfolio-ink/50 dark:bg-white dark:mix-blend-difference"></div>
+            <div className="text-xs font-bold tracking-widest text-portfolio-ink/60 dark:mix-blend-difference dark:text-white">
+              SCROLL
+            </div>
+          </motion.div>
         </motion.div>
       </div>
     </section>
