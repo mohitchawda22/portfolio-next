@@ -24,6 +24,7 @@ const projects = [
     description:
       'DYNAMIC PLATFORM SERVING COMMUNITIES WITH REAL-TIME INTERACTIONS AND SEAMLESS MATCHING',
     tech: ['REACT', 'TAILWIND', 'REACT QUERY'],
+    href: 'https://clubmatch.co.uk',
     className: 'md:col-span-7 md:row-span-2 min-h-[320px] md:min-h-0',
     titleClass: 'text-3xl md:text-4xl',
     descClass: 'text-base md:text-lg',
@@ -36,11 +37,12 @@ const projects = [
     title: 'ZADWALLETS',
     description: 'SECURE WALLET PLATFORM WITH REAL-TIME TRANSACTIONS',
     tech: ['REACT', 'TAILWIND', 'WEB3', 'JAVASCRIPT'],
+    href: 'https://zadwallets.com',
     className: 'md:col-span-5 min-h-[220px]',
     titleClass: 'text-2xl',
     descClass: 'text-sm',
     padding: 'p-6',
-    icon: null,
+    icon: 'external' as const,
     reveal: { x: 240, y: 110, rotate: 5, origin: '100% 0%' },
   },
   {
@@ -48,11 +50,12 @@ const projects = [
     title: 'THREADSTONE',
     description: null,
     tech: ['REACT', 'TAILWIND', 'INTERACTIVE UI'],
+    href: 'https://threadstone.com',
     className: 'md:col-span-3 min-h-[180px]',
     titleClass: 'text-xl',
     descClass: '',
     padding: 'p-6',
-    icon: null,
+    icon: 'external' as const,
     reveal: { x: 60, y: 190, rotate: -3.5, origin: '50% 100%' },
   },
   {
@@ -60,6 +63,7 @@ const projects = [
     title: 'INTERACTIVE PORTFOLIO',
     description: null,
     tech: ['NEXT.JS', 'TYPESCRIPT', 'TAILWIND', 'FRAMER MOTION'],
+    href: 'https://mohit-portfolio-ruby.vercel.app/',
     className: 'md:col-span-9 min-h-[160px]',
     titleClass: 'text-2xl md:text-3xl',
     descClass: '',
@@ -165,6 +169,7 @@ function ProjectsHeading({ active }: { active: boolean }) {
 
 function ProjectCard({ project }: { project: (typeof projects)[number] }) {
   const isWide = project.number === '01' || project.number === '04'
+  const isExternal = project.href.startsWith('http')
 
   return (
     <motion.div
@@ -173,8 +178,12 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
       style={{ transformOrigin: project.reveal.origin }}
       className={`h-full transform-gpu ${project.className}`}
     >
-      <motion.article
-        className={`group relative flex h-full flex-col justify-between overflow-hidden border-4 border-portfolio-accent bg-portfolio-cream text-portfolio-ink dark:border-white dark:bg-white dark:text-black ${project.padding}`}
+      <motion.a
+        href={project.href}
+        target={isExternal ? '_blank' : undefined}
+        rel={isExternal ? 'noopener noreferrer' : undefined}
+        aria-label={`Open ${project.title} project`}
+        className={`group relative flex h-full flex-col justify-between overflow-hidden border-4 border-portfolio-accent bg-portfolio-cream text-portfolio-ink no-underline dark:border-white dark:bg-white dark:text-black ${project.padding}`}
         whileHover={{
           y: -6,
           backgroundColor: 'var(--card-hover-bg)',
@@ -244,27 +253,27 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
             </div>
 
             {project.icon === 'external' && (
-              <motion.div
+              <motion.span
                 className="shrink-0 self-end"
                 whileHover={{ rotate: 45, scale: 1.12 }}
                 transition={{ type: 'spring', stiffness: 420, damping: 16 }}
               >
-                <ExternalLink className="h-5 w-5 md:h-6 md:w-6" />
-              </motion.div>
+                <ExternalLink className="h-5 w-5 md:h-6 md:w-6" aria-hidden />
+              </motion.span>
             )}
 
             {project.icon === 'arrow' && (
-              <motion.div
+              <motion.span
                 className="shrink-0 self-end"
                 whileHover={{ x: 8 }}
                 transition={{ type: 'spring', stiffness: 420, damping: 16 }}
               >
-                <ArrowRight className="h-7 w-7 md:h-8 md:w-8" />
-              </motion.div>
+                <ArrowRight className="h-7 w-7 md:h-8 md:w-8" aria-hidden />
+              </motion.span>
             )}
           </div>
         </motion.div>
-      </motion.article>
+      </motion.a>
     </motion.div>
   )
 }

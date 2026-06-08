@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
-import { PixelWipePreloader } from '@/components/PixelWipePreloader'
+import { SitePreloader } from '@/components/SitePreloader'
 import { PRELOADER_INIT_SCRIPT } from '@/lib/preloader-theme'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ThemeTransitionProvider } from '@/components/ThemeTransitionProvider'
@@ -52,7 +52,7 @@ export default function RootLayout({
           themes={['light', 'dark', 'system']}
         >
           <ThemeTransitionProvider>
-            <PixelWipePreloader
+            <SitePreloader
               revealStyle="center"
               counterDuration={3200}
               revealDuration={1400}
@@ -61,7 +61,7 @@ export default function RootLayout({
               minDisplayTime={700}
             >
               {children}
-            </PixelWipePreloader>
+            </SitePreloader>
           </ThemeTransitionProvider>
         </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}

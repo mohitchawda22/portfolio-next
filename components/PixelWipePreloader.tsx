@@ -40,6 +40,8 @@ export type PixelWipePreloaderProps = {
   speed?: number
   gridSize?: number
   minDisplayTime?: number
+  /** Skip the intro sequence (used on error and secondary routes). */
+  disabled?: boolean
 }
 
 type GridCell = {
@@ -315,6 +317,7 @@ export function PixelWipePreloader({
   speed = 1,
   gridSize = 46,
   minDisplayTime = 700,
+  disabled = false,
 }: PixelWipePreloaderProps) {
   const { resolvedTheme } = useTheme()
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
@@ -326,16 +329,28 @@ export function PixelWipePreloader({
 
   const theme = PRELOADER_THEME
   const [activeStyle] = useState<PixelRevealStyle>(revealStyle)
-  const [isVisible, setIsVisible] = useState(true)
-  const [phase, setPhase] = useState<'counter' | 'reveal' | 'done'>('counter')
-  const [preloaderDone, setPreloaderDone] = useState(false)
+  const [isVisible, setIsVisible] = useState(() => !disabled)
+  const [phase, setPhase] = useState<'counter' | 'reveal' | 'done'>(
+    disabled ? 'done' : 'counter'
+  )
+  const [preloaderDone, setPreloaderDone] = useState(disabled)
   const [counterValue, setCounterValue] = useState(0)
   const [loadProgress, setLoadProgress] = useState(0)
   const [revealProgress, setRevealProgress] = useState(0)
   const [overlayOpacity, setOverlayOpacity] = useState(1)
 
-  const isSiteReady = preloaderDone && resolvedTheme !== undefined
-  const showCounterUi = phase !== 'done'
+  const isSiteReady =
+    disabled ? resolvedTheme !== undefined : preloaderDone && resolvedTheme !== undefined
+  const showCounterUi = !disabled && phase !== 'done'
+
+  useLayoutEffect(() => {
+    if (!disabled) return
+
+    setPreloaderDone(true)
+    setPhase('done')
+    setIsVisible(false)
+    releasePreloaderOverlay()
+  }, [disabled])
 
   const scaledCounterDuration = counterDuration / speed
   const scaledRevealDuration = revealDuration / speed
@@ -496,6 +511,7 @@ export function PixelWipePreloader({
   ])
 
   useEffect(() => {
+    if (disabled) return
     if (hasStartedRef.current) return
     hasStartedRef.current = true
 
@@ -512,10 +528,10 @@ export function PixelWipePreloader({
       cancelled = true
       runIdRef.current += 1
     }
-  }, [runSequence])
+  }, [disabled, runSequence])
 
   useEffect(() => {
-    if (!isVisible) return
+    if (disabled || !isVisible) return
 
     const handleResize = () => {
       canvasReadyRef.current = false
