@@ -4,7 +4,7 @@ import { ThemeTransitionShell } from '@/components/ThemeTransitionProvider'
 import { Hero } from '@/components/sections/Hero'
 import { Background } from '@/components/sections/Background'
 import { Projects } from '@/components/sections/Projects'
-import { Skills } from '@/components/sections/Skills'
+import { SkillsPhilosophy } from '@/components/sections/SkillsPhilosophy'
 import { Contact } from '@/components/sections/Contact'
 
 export default function BoldDeveloperPortfolio() {
@@ -16,7 +16,7 @@ export default function BoldDeveloperPortfolio() {
         <Hero />
         <Background />
         <Projects />
-        <Skills />
+        <SkillsPhilosophy />
         <Contact />
       </ThemeTransitionShell>
     </div>

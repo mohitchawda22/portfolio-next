@@ -78,9 +78,7 @@ const tagVariants: Variants = {
 }
 
 function ScrambleHeading({ text, active }: { text: string; active: boolean }) {
-  const [display, setDisplay] = useState(
-    text.replace(/[^\s]/g, '_')
-  )
+  const [display, setDisplay] = useState(text.replace(/[^\s]/g, '_'))
 
   useEffect(() => {
     if (!active) return
@@ -267,13 +265,14 @@ function SkillBlock({
   )
 }
 
-export function Skills() {
-  const sectionRef = useRef<HTMLElement>(null)
+export function SkillsGrid({ active }: { active: boolean }) {
+  const gridRef = useRef<HTMLDivElement>(null)
   const isDesktop = useIsDesktop()
-  const headingInView = useInView(sectionRef, { once: true, margin: '-15% 0px' })
+  const gridInView = useInView(gridRef, { once: true, margin: '-10% 0px' })
+  const show = active && gridInView
 
   const { scrollYProgress } = useScroll({
-    target: sectionRef,
+    target: gridRef,
     offset: ['start end', 'end start'],
   })
 
@@ -288,10 +287,7 @@ export function Skills() {
   const barProgresses = [bar0, bar1, bar2, bar3]
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative z-20 overflow-hidden bg-portfolio-lime px-6 py-24 text-portfolio-ink transition-colors duration-500 sm:py-28 md:px-8 md:py-32 dark:bg-white dark:text-black"
-    >
+    <div ref={gridRef} className="relative">
       <motion.div
         className="pointer-events-none absolute left-0 right-0 h-px bg-black/10"
         style={{ top: scanLineY }}
@@ -307,28 +303,14 @@ export function Skills() {
         aria-hidden
       />
 
-      <div className="relative mx-auto max-w-7xl">
-        <div className="mb-16 md:mb-24">
+      <div className="relative">
+        <div className="mb-12 md:mb-16">
           <p className="mb-3 font-mono text-xs font-black tracking-[0.35em] opacity-40">
-            // LOAD_MODULE
+            // CORE_STACK
           </p>
-          <h2 className="-rotate-2 text-4xl font-black sm:text-5xl md:text-7xl">
-            <ScrambleHeading text="SKILLS_" active={headingInView} />
-          </h2>
-          <motion.div
-            className="mt-6 flex items-center gap-2 font-mono text-xs font-bold opacity-50"
-            initial={{ opacity: 0, x: -20 }}
-            animate={headingInView ? { opacity: 0.5, x: 0 } : { opacity: 0, x: -20 }}
-            transition={{ delay: 1.1, duration: 0.5 }}
-          >
-            <motion.span
-              animate={headingInView ? { opacity: [1, 0.2, 1] } : { opacity: 0 }}
-              transition={{ repeat: Infinity, duration: 1.2 }}
-            >
-              █
-            </motion.span>
-            INITIALIZING STACK...
-          </motion.div>
+          <h3 className="-rotate-2 text-4xl font-black sm:text-5xl md:text-6xl">
+            <ScrambleHeading text="TECHNICAL_SKILLS_" active={show} />
+          </h3>
         </div>
 
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16">
@@ -338,7 +320,7 @@ export function Skills() {
                 key={skill.title}
                 skill={skill}
                 index={index}
-                inView={headingInView}
+                inView={show}
                 barProgress={barProgresses[index]}
               />
             ))}
@@ -353,13 +335,13 @@ export function Skills() {
                 key={skill.title}
                 skill={skill}
                 index={index + 2}
-                inView={headingInView}
+                inView={show}
                 barProgress={barProgresses[index + 2]}
               />
             ))}
           </motion.div>
         </div>
       </div>
-    </section>
+    </div>
   )
 }
