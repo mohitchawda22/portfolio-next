@@ -4,7 +4,22 @@ import { useEffect, useState } from 'react'
 import { motion, useMotionValueEvent, useSpring } from 'framer-motion'
 import type { PreloaderTheme } from '@/lib/preloader-theme'
 
-const DIGIT_PX = 80
+function useDigitSize() {
+  const [digitPx, setDigitPx] = useState(80)
+
+  useEffect(() => {
+    const update = () => {
+      const width = window.innerWidth
+      setDigitPx(Math.min(80, Math.max(48, width * 0.17)))
+    }
+
+    update()
+    window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [])
+
+  return digitPx
+}
 
 type PreloaderCounterProps = {
   value: number
@@ -12,18 +27,28 @@ type PreloaderCounterProps = {
   visible?: boolean
 }
 
-function DigitColumn({ digit, color }: { digit: number; color: string }) {
+function DigitColumn({
+  digit,
+  color,
+  digitPx,
+}: {
+  digit: number
+  color: string
+  digitPx: number
+}) {
   const safeDigit = Math.min(9, Math.max(0, digit))
+  const columnWidth = digitPx * 0.72
+  const fontSize = digitPx * 0.9
 
   return (
     <div
       className="relative overflow-hidden"
-      style={{ height: DIGIT_PX, width: DIGIT_PX * 0.72 }}
+      style={{ height: digitPx, width: columnWidth }}
     >
       <motion.div
         className="flex flex-col will-change-transform"
         initial={false}
-        animate={{ y: -safeDigit * DIGIT_PX }}
+        animate={{ y: -safeDigit * digitPx }}
         transition={{
           duration: 0.5,
           ease: [0.22, 1, 0.36, 1],
@@ -32,11 +57,12 @@ function DigitColumn({ digit, color }: { digit: number; color: string }) {
         {Array.from({ length: 10 }, (_, i) => (
           <span
             key={i}
-            className="flex shrink-0 items-center justify-center font-mono text-[4.5rem] font-black leading-none tabular-nums md:text-[5rem]"
+            className="flex shrink-0 items-center justify-center font-mono font-black leading-none tabular-nums"
             style={{
               color,
-              height: DIGIT_PX,
-              width: DIGIT_PX * 0.72,
+              height: digitPx,
+              width: columnWidth,
+              fontSize,
             }}
           >
             {i}
@@ -52,6 +78,7 @@ export function PreloaderCounter({
   theme,
   visible = true,
 }: PreloaderCounterProps) {
+  const digitPx = useDigitSize()
   const spring = useSpring(0, {
     stiffness: 55,
     damping: 18,
@@ -90,14 +117,14 @@ export function PreloaderCounter({
       >
         {displayValue >= 100 ? (
           <>
-            <DigitColumn digit={1} color={theme.counter} />
-            <DigitColumn digit={0} color={theme.counter} />
-            <DigitColumn digit={0} color={theme.counter} />
+            <DigitColumn digit={1} color={theme.counter} digitPx={digitPx} />
+            <DigitColumn digit={0} color={theme.counter} digitPx={digitPx} />
+            <DigitColumn digit={0} color={theme.counter} digitPx={digitPx} />
           </>
         ) : (
           <>
-            <DigitColumn digit={tens} color={theme.counter} />
-            <DigitColumn digit={ones} color={theme.counter} />
+            <DigitColumn digit={tens} color={theme.counter} digitPx={digitPx} />
+            <DigitColumn digit={ones} color={theme.counter} digitPx={digitPx} />
           </>
         )}
       </motion.div>

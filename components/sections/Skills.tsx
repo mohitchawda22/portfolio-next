@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useIsDesktop } from '@/lib/use-media-query'
 import {
   motion,
   useInView,
@@ -135,7 +136,7 @@ function ScrambleHeading({ text, active }: { text: string; active: boolean }) {
 function FlipTitle({ title, active }: { title: string; active: boolean }) {
   return (
     <h3
-      className="mb-4 text-4xl font-black"
+      className="mb-4 text-2xl font-black sm:text-3xl md:text-4xl"
       style={{ perspective: 800, transformStyle: 'preserve-3d' }}
     >
       {title.split('').map((char, index) => (
@@ -189,7 +190,7 @@ function SkillBlock({
       transition={{ duration: 0.2, delay: index * 0.12 }}
     >
       <span
-        className="pointer-events-none absolute -left-2 top-0 select-none text-[7rem] font-black leading-none text-black/[0.04] md:-left-6 md:text-[9rem]"
+        className="pointer-events-none absolute left-0 top-0 select-none text-[clamp(3rem,18vw,9rem)] font-black leading-none text-black/[0.04] sm:-left-2 md:-left-6"
         aria-hidden
       >
         {skill.number}
@@ -236,6 +237,7 @@ function SkillBlock({
                   boxShadow: '4px 4px 0px 0px var(--card-hover-shadow)',
                   transition: { type: 'spring', stiffness: 500, damping: 18 },
                 }}
+                whileTap={{ scale: 1.02 }}
                 className="cursor-default border-2 border-portfolio-ink px-3 py-1 text-xs font-black tracking-wider dark:border-black md:text-sm"
               >
                 {tag}
@@ -267,6 +269,7 @@ function SkillBlock({
 
 export function Skills() {
   const sectionRef = useRef<HTMLElement>(null)
+  const isDesktop = useIsDesktop()
   const headingInView = useInView(sectionRef, { once: true, margin: '-15% 0px' })
 
   const { scrollYProgress } = useScroll({
@@ -287,7 +290,7 @@ export function Skills() {
   return (
     <section
       ref={sectionRef}
-      className="relative z-20 overflow-hidden bg-portfolio-lime px-8 py-32 text-portfolio-ink transition-colors duration-500 dark:bg-white dark:text-black"
+      className="relative z-20 overflow-hidden bg-portfolio-lime px-6 py-24 text-portfolio-ink transition-colors duration-500 sm:py-28 md:px-8 md:py-32 dark:bg-white dark:text-black"
     >
       <motion.div
         className="pointer-events-none absolute left-0 right-0 h-px bg-black/10"
@@ -309,7 +312,7 @@ export function Skills() {
           <p className="mb-3 font-mono text-xs font-black tracking-[0.35em] opacity-40">
             // LOAD_MODULE
           </p>
-          <h2 className="-rotate-2 text-5xl font-black md:text-7xl">
+          <h2 className="-rotate-2 text-4xl font-black sm:text-5xl md:text-7xl">
             <ScrambleHeading text="SKILLS_" active={headingInView} />
           </h2>
           <motion.div
@@ -328,8 +331,8 @@ export function Skills() {
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:gap-16">
-          <motion.div style={{ y: leftY }} className="space-y-10">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16">
+          <motion.div style={{ y: isDesktop ? leftY : 0 }} className="space-y-8 md:space-y-10">
             {skills.slice(0, 2).map((skill, index) => (
               <SkillBlock
                 key={skill.title}
@@ -341,7 +344,10 @@ export function Skills() {
             ))}
           </motion.div>
 
-          <motion.div style={{ y: rightY }} className="space-y-10 pt-0 md:pt-28">
+          <motion.div
+            style={{ y: isDesktop ? rightY : 0 }}
+            className="space-y-8 pt-0 md:space-y-10 md:pt-28"
+          >
             {skills.slice(2).map((skill, index) => (
               <SkillBlock
                 key={skill.title}

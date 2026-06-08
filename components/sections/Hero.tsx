@@ -9,88 +9,204 @@ const slideTransition = {
   ease: [0.76, 0, 0.24, 1] as const,
 }
 
+function HeroCopy({
+  name,
+  role,
+  tagline,
+  align,
+  nameRotate,
+  roleRotate,
+}: {
+  name: string
+  role: string
+  tagline: string[]
+  align: 'left' | 'right'
+  nameRotate: string
+  roleRotate: string
+}) {
+  const isRight = align === 'right'
+
+  return (
+    <div className={isRight ? 'text-right' : 'text-left'}>
+      <h1
+        className={`mb-2 font-black leading-[0.9] transform sm:mb-3 md:mb-4 ${nameRotate} text-[clamp(2.75rem,11vw,6rem)]`}
+      >
+        {name}
+      </h1>
+      <div
+        className={`mb-4 text-sm font-bold transform sm:mb-6 sm:text-base md:mb-8 md:text-xl lg:text-2xl ${roleRotate}`}
+      >
+        {role}
+      </div>
+      <div
+        className={`mb-4 h-1 w-20 bg-portfolio-accent/100 sm:mb-6 sm:w-24 md:mb-8 md:w-32 dark:bg-black ${isRight ? 'ml-auto' : ''} ${isRight ? 'dark:bg-white' : ''}`}
+      />
+      <p className="text-xs font-medium leading-snug sm:text-sm md:text-base lg:text-lg">
+        {tagline.map((line) => (
+          <span key={line} className="block">
+            {line}
+          </span>
+        ))}
+      </p>
+    </div>
+  )
+}
+
 export function Hero() {
   const containerRef = useRef<HTMLElement>(null)
   const isReady = usePreloaderComplete()
-  
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
-    offset: ["start start", "end start"]
+    offset: ['start start', 'end start'],
   })
 
-  // Transform values for the scroll split effect
-  // They fully open exactly when the user has scrolled 1 window height down (which is 0.5 of this 200vh container)
-  const leftX = useTransform(scrollYProgress, [0, 0.5], ["0%", "-100%"])
-  const rightX = useTransform(scrollYProgress, [0, 0.5], ["0%", "100%"])
+  const leftX = useTransform(scrollYProgress, [0, 0.5], ['0%', '-100%'])
+  const rightX = useTransform(scrollYProgress, [0, 0.5], ['0%', '100%'])
+  const topY = useTransform(scrollYProgress, [0, 0.5], ['0%', '-100%'])
+  const bottomY = useTransform(scrollYProgress, [0, 0.5], ['0%', '100%'])
   const indicatorOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
 
   return (
-    <section ref={containerRef} className="h-[200vh] pointer-events-none relative z-50 bg-transparent">
-      <div className="sticky top-0 h-screen overflow-hidden pointer-events-none">
-        
-        {/* Left side container (Scroll Effect) */}
-        <motion.div className="absolute inset-0 pointer-events-auto z-20" style={{ x: leftX }}>
-          {/* Inner Left side (Slide In Effect) */}
-          <motion.div 
-            initial={false}
-            animate={{ x: isReady ? 0 : '-100%' }}
-            transition={slideTransition}
-            className="absolute inset-0 bg-portfolio-cream dark:bg-white"
-            style={{
-              clipPath: 'polygon(0 0, 60% 0, 40% 100%, 0% 100%)'
-            }}
+    <section
+      ref={containerRef}
+      className="pointer-events-none relative z-50 h-[200vh] bg-transparent"
+    >
+      <div className="pointer-events-none sticky top-0 h-[100dvh] overflow-hidden">
+        {/* Mobile / tablet: vertical split */}
+        <div className="absolute inset-0 lg:hidden">
+          <motion.div
+            className="absolute inset-0 z-20 pointer-events-auto"
+            style={{ y: topY }}
           >
-            <div className="absolute left-8 top-1/2 transform -translate-y-1/2 w-2/5">
-              <div className="text-portfolio-ink dark:text-black">
-                <h1 className="text-8xl font-black leading-none mb-4 transform -rotate-2">
-                  MOHIT
-                </h1>
-                <div className="text-2xl font-bold mb-8 transform rotate-1">
-                  CREATIVE DEVELOPER
+            <motion.div
+              initial={false}
+              animate={{ y: isReady ? 0 : '-100%' }}
+              transition={slideTransition}
+              className="absolute inset-0 bg-portfolio-cream dark:bg-white"
+              style={{
+                clipPath: 'polygon(0 0, 100% 0, 100% 54%, 0 46%)',
+              }}
+            >
+              <div className="absolute inset-x-4 top-[14%] max-w-md sm:inset-x-6 sm:top-[16%] md:inset-x-8 md:top-[18%]">
+                <div className="text-portfolio-ink dark:text-black">
+                  <HeroCopy
+                    name="MOHIT"
+                    role="CREATIVE DEVELOPER"
+                    tagline={[
+                      'CRAFTING DIGITAL',
+                      'EXPERIENCES THAT',
+                      'BREAK BOUNDARIES',
+                    ]}
+                    align="left"
+                    nameRotate="-rotate-2"
+                    roleRotate="rotate-1"
+                  />
                 </div>
-                <div className="mb-8 h-1 w-32 bg-portfolio-accent/100 dark:bg-black"></div>
-                <p className="text-lg font-medium leading-tight">
-                  CRAFTING DIGITAL<br/>
-                  EXPERIENCES THAT<br/>
-                  BREAK BOUNDARIES
-                </p>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
 
-        {/* Right side container (Scroll Effect) */}
-        <motion.div className="absolute inset-0 pointer-events-auto  z-20" style={{ x: rightX }}>
-          {/* Inner Right side (Slide In Effect) */}
-          <motion.div 
-            initial={false}
-            animate={{ x: isReady ? 0 : '100%' }}
-            transition={slideTransition}
-            className="absolute inset-0 bg-portfolio-sand dark:bg-black"
-            style={{
-              clipPath: 'polygon(60% 0, 100% 0, 100% 100%, 40% 100%)'
-            }}
+          <motion.div
+            className="absolute inset-0 z-20 pointer-events-auto"
+            style={{ y: bottomY }}
           >
-            <div className="absolute right-8 top-1/2 transform -translate-y-1/2 w-2/5 text-right">
-              <div className="text-portfolio-ink dark:text-white">
-                <h1 className="text-8xl font-black leading-none mb-4 transform rotate-2">
-                  CHAWDA
-                </h1>
-                <div className="text-2xl font-bold mb-8 transform -rotate-1">
-                  FRONTEND DEVELOPER
+            <motion.div
+              initial={false}
+              animate={{ y: isReady ? 0 : '100%' }}
+              transition={slideTransition}
+              className="absolute inset-0 bg-portfolio-sand dark:bg-black"
+              style={{
+                clipPath: 'polygon(0 46%, 100% 54%, 100% 100%, 0 100%)',
+              }}
+            >
+              <div className="absolute inset-x-4 bottom-[12%] max-w-md sm:inset-x-6 sm:bottom-[14%] md:inset-x-8 md:bottom-[16%]">
+                <div className="text-portfolio-ink dark:text-white">
+                  <HeroCopy
+                    name="CHAWDA"
+                    role="FRONTEND DEVELOPER"
+                    tagline={[
+                      'CODE IS ART',
+                      'ART IS CODE',
+                      'INNOVATION IS EVERYTHING',
+                    ]}
+                    align="right"
+                    nameRotate="rotate-2"
+                    roleRotate="-rotate-1"
+                  />
                 </div>
-                <div className="mb-8 ml-auto h-1 w-32 bg-portfolio-accent/80 dark:bg-white"></div>
-                <p className="text-lg font-medium leading-tight">
-                  CODE IS ART<br/>
-                  ART IS CODE<br/>
-                  INNOVATION IS EVERYTHING
-                </p>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </div>
 
-        {/* Scroll indicator with fade out on scroll */}
+        {/* Desktop: diagonal split */}
+        <div className="absolute inset-0 hidden lg:block">
+          <motion.div
+            className="absolute inset-0 z-20 pointer-events-auto"
+            style={{ x: leftX }}
+          >
+            <motion.div
+              initial={false}
+              animate={{ x: isReady ? 0 : '-100%' }}
+              transition={slideTransition}
+              className="absolute inset-0 bg-portfolio-cream dark:bg-white"
+              style={{
+                clipPath: 'polygon(0 0, 60% 0, 40% 100%, 0% 100%)',
+              }}
+            >
+              <div className="absolute left-8 top-1/2 w-2/5 max-w-md -translate-y-1/2 xl:left-12">
+                <div className="text-portfolio-ink dark:text-black">
+                  <HeroCopy
+                    name="MOHIT"
+                    role="CREATIVE DEVELOPER"
+                    tagline={[
+                      'CRAFTING DIGITAL',
+                      'EXPERIENCES THAT',
+                      'BREAK BOUNDARIES',
+                    ]}
+                    align="left"
+                    nameRotate="-rotate-2"
+                    roleRotate="rotate-1"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          <motion.div
+            className="absolute inset-0 z-20 pointer-events-auto"
+            style={{ x: rightX }}
+          >
+            <motion.div
+              initial={false}
+              animate={{ x: isReady ? 0 : '100%' }}
+              transition={slideTransition}
+              className="absolute inset-0 bg-portfolio-sand dark:bg-black"
+              style={{
+                clipPath: 'polygon(60% 0, 100% 0, 100% 100%, 40% 100%)',
+              }}
+            >
+              <div className="absolute right-8 top-1/2 w-2/5 max-w-md -translate-y-1/2 text-right xl:right-12">
+                <div className="text-portfolio-ink dark:text-white">
+                  <HeroCopy
+                    name="CHAWDA"
+                    role="FRONTEND DEVELOPER"
+                    tagline={[
+                      'CODE IS ART',
+                      'ART IS CODE',
+                      'INNOVATION IS EVERYTHING',
+                    ]}
+                    align="right"
+                    nameRotate="rotate-2"
+                    roleRotate="-rotate-1"
+                  />
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        </div>
+
         <motion.div
           initial={false}
           animate={{
@@ -98,11 +214,11 @@ export function Hero() {
             y: isReady ? 0 : 20,
           }}
           transition={{ delay: isReady ? 1.2 : 0, duration: 0.8 }}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center pointer-events-auto z-20"
+          className="pointer-events-auto absolute bottom-6 left-1/2 z-30 -translate-x-1/2 text-center sm:bottom-8"
         >
           <motion.div style={{ opacity: indicatorOpacity }}>
-            <div className="mx-auto mb-4 h-16 w-px animate-pulse bg-portfolio-ink/50 dark:bg-white dark:mix-blend-difference"></div>
-            <div className="text-xs font-bold tracking-widest text-portfolio-ink/60 dark:mix-blend-difference dark:text-white">
+            <div className="mx-auto mb-3 h-12 w-px animate-pulse bg-portfolio-ink/50 sm:mb-4 sm:h-16 dark:bg-white dark:mix-blend-difference" />
+            <div className="text-[10px] font-bold tracking-widest text-portfolio-ink/60 sm:text-xs dark:mix-blend-difference dark:text-white">
               SCROLL
             </div>
           </motion.div>

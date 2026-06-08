@@ -108,7 +108,9 @@ export function VideoTextMask({
     setVideoFailed(true)
   }
 
-  const fontSize = size.width * fontSizeRatio
+  const responsiveRatio =
+    size.width < 420 ? fontSizeRatio * 0.82 : size.width < 640 ? fontSizeRatio * 0.92 : fontSizeRatio
+  const fontSize = size.width * responsiveRatio
 
   const maskImage = useMemo(() => {
     const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 ${size.width} ${size.height}'>

@@ -59,7 +59,7 @@ function ContactLink({
       }}
       whileTap={{ scale: 0.98 }}
       transition={{ type: 'spring', stiffness: 380, damping: 22 }}
-      className="inline-flex items-center gap-4 border-2 border-portfolio-accent bg-transparent px-8 py-4 text-xl font-black text-white transition-colors hover:bg-portfolio-accent hover:text-portfolio-ink dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black"
+      className="inline-flex w-full items-center justify-center gap-3 border-2 border-portfolio-accent bg-transparent px-5 py-3 text-base font-black text-white transition-colors hover:bg-portfolio-accent hover:text-portfolio-ink sm:w-auto sm:gap-4 sm:px-8 sm:py-4 sm:text-xl dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black"
     >
       <Icon className="h-6 w-6 shrink-0" />
       {label}
@@ -140,7 +140,7 @@ export function Contact() {
         />
 
         <motion.div
-          className="mt-14 flex flex-col items-center justify-center gap-5 sm:flex-row sm:gap-10 md:mt-16"
+          className="mt-12 flex w-full flex-col items-stretch justify-center gap-4 px-2 sm:mt-14 sm:flex-row sm:items-center sm:gap-10 md:mt-16"
           initial="hidden"
           animate={contentInView ? 'visible' : 'hidden'}
         >
@@ -162,7 +162,7 @@ export function Contact() {
 
         <motion.a
           href={EMAIL_URL}
-          className="mt-12 inline-block font-mono text-lg font-black tracking-widest md:mt-14 md:text-2xl"
+          className="mt-10 inline-block max-w-full break-all px-2 font-mono text-[clamp(0.7rem,3.2vw,1.5rem)] font-black tracking-wide sm:mt-12 sm:tracking-widest md:mt-14"
           initial={{ opacity: 0, letterSpacing: '0.2em' }}
           animate={
             contentInView

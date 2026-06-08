@@ -21,7 +21,9 @@ export default function GlobalError({
           <p className="mb-4 font-mono text-xs font-black tracking-[0.35em] text-white/40">
             // CRITICAL_FAULT
           </p>
-          <h1 className="mb-4 text-6xl font-black tracking-tight md:text-8xl">500</h1>
+          <h1 className="mb-4 text-[clamp(3rem,15vw,6rem)] font-black tracking-tight md:text-8xl">
+            500
+          </h1>
           <p className="mb-10 max-w-md text-sm font-medium leading-relaxed text-white/65 md:text-base">
             A root-level error stopped the app from loading. Retry or return home.
           </p>

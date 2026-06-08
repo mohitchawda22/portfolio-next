@@ -92,6 +92,7 @@ function BackgroundCard({
           rotate: fromLeft ? 0.6 : -0.6,
           transition: { type: 'spring', stiffness: 320, damping: 20 },
         }}
+        whileTap={{ scale: 0.99, x: 2, y: -2 }}
       >
         <motion.div
           aria-hidden
@@ -107,7 +108,7 @@ function BackgroundCard({
           {String(index + 1).padStart(2, '0')}
         </motion.span>
 
-        <div className="relative mb-6 flex items-start justify-between gap-4">
+        <div className="relative mb-6 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <motion.span
             className="shrink-0 border-2 border-portfolio-ink px-2 py-1 font-mono text-[10px] font-black tracking-widest dark:border-black md:text-xs"
             style={{ opacity: textOpacity, y: textY }}
@@ -115,9 +116,9 @@ function BackgroundCard({
             {item.period}
           </motion.span>
 
-          <div className="min-w-0 text-right">
+          <div className="min-w-0 text-left sm:text-right">
             <motion.div
-              className="mb-2 text-xl font-black tracking-widest md:text-2xl"
+              className="mb-2 text-lg font-black tracking-widest sm:text-xl md:text-2xl"
               style={{ clipPath: labelClip }}
             >
               {item.label}
@@ -130,7 +131,7 @@ function BackgroundCard({
         </div>
 
         <motion.h3
-          className="mb-2 text-2xl font-black leading-tight group-hover:italic md:text-4xl"
+          className="mb-2 text-xl font-black leading-tight group-hover:italic sm:text-2xl md:text-4xl"
           style={{ y: textY, opacity: textOpacity }}
         >
           {item.title}
@@ -159,7 +160,7 @@ function BackgroundHeading({ active }: { active: boolean }) {
       </motion.p>
 
       <h2
-        className="flex flex-wrap text-5xl font-black leading-[0.95] md:text-6xl"
+        className="flex flex-wrap text-4xl font-black leading-[0.95] sm:text-5xl md:text-6xl"
         aria-label={headingText}
       >
         {headingText.split('').map((letter, index) => (
@@ -219,7 +220,7 @@ export function Background() {
       ref={sectionRef}
       className="relative z-10 -mt-[100vh] w-full bg-portfolio-sand text-portfolio-ink transition-colors duration-500 dark:bg-white dark:text-black"
     >
-      <div className="relative min-h-screen overflow-hidden py-28 md:py-32">
+      <div className="relative min-h-screen overflow-hidden py-24 sm:py-28 md:py-32">
         <motion.div
           aria-hidden
           className="pointer-events-none absolute inset-0"

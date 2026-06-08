@@ -9,7 +9,7 @@ import { Contact } from '@/components/sections/Contact'
 
 export default function BoldDeveloperPortfolio() {
   return (
-    <div className="min-h-screen bg-portfolio-cream text-portfolio-ink transition-colors duration-500 dark:bg-black dark:text-white">
+    <div className="min-h-screen overflow-x-hidden bg-portfolio-cream text-portfolio-ink transition-colors duration-500 dark:bg-black dark:text-white">
       <ThemeSwitcher />
       <ThemeTransitionShell>
         <CursorFollower />

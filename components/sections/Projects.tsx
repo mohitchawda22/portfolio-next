@@ -25,8 +25,8 @@ const projects = [
       'DYNAMIC PLATFORM SERVING COMMUNITIES WITH REAL-TIME INTERACTIONS AND SEAMLESS MATCHING',
     tech: ['REACT', 'TAILWIND', 'REACT QUERY'],
     href: 'https://clubmatch.co.uk',
-    className: 'md:col-span-7 md:row-span-2 min-h-[320px] md:min-h-0',
-    titleClass: 'text-3xl md:text-4xl',
+    className: 'md:col-span-7 md:row-span-2 min-h-[220px] sm:min-h-[260px] md:min-h-0',
+    titleClass: 'text-2xl sm:text-3xl md:text-4xl',
     descClass: 'text-base md:text-lg',
     padding: 'p-6 md:p-8',
     icon: 'external' as const,
@@ -38,8 +38,8 @@ const projects = [
     description: 'SECURE WALLET PLATFORM WITH REAL-TIME TRANSACTIONS',
     tech: ['REACT', 'TAILWIND', 'WEB3', 'JAVASCRIPT'],
     href: 'https://zadwallets.com',
-    className: 'md:col-span-5 min-h-[220px]',
-    titleClass: 'text-2xl',
+    className: 'md:col-span-5 min-h-[180px] sm:min-h-[200px]',
+    titleClass: 'text-xl sm:text-2xl',
     descClass: 'text-sm',
     padding: 'p-6',
     icon: 'external' as const,
@@ -51,8 +51,8 @@ const projects = [
     description: null,
     tech: ['REACT', 'TAILWIND', 'INTERACTIVE UI'],
     href: 'https://threadstone.com',
-    className: 'md:col-span-3 min-h-[180px]',
-    titleClass: 'text-xl',
+    className: 'md:col-span-3 min-h-[160px] sm:min-h-[180px]',
+    titleClass: 'text-lg sm:text-xl',
     descClass: '',
     padding: 'p-6',
     icon: 'external' as const,
@@ -64,8 +64,8 @@ const projects = [
     description: null,
     tech: ['NEXT.JS', 'TYPESCRIPT', 'TAILWIND', 'FRAMER MOTION'],
     href: 'https://mohit-portfolio-ruby.vercel.app/',
-    className: 'md:col-span-9 min-h-[160px]',
-    titleClass: 'text-2xl md:text-3xl',
+    className: 'md:col-span-9 min-h-[150px] sm:min-h-[160px]',
+    titleClass: 'text-xl sm:text-2xl md:text-3xl',
     descClass: '',
     padding: 'p-6',
     icon: 'arrow' as const,
@@ -123,7 +123,7 @@ const contentVariants: Variants = {
 
 function ProjectsHeading({ active }: { active: boolean }) {
   return (
-    <div className="mb-10 text-right md:mb-16">
+    <div className="mb-10 text-left md:mb-16 md:text-right">
       <motion.p
         className="mb-3 font-mono text-xs font-black tracking-[0.3em] text-white/40"
         initial={{ opacity: 0, x: 20 }}
@@ -133,7 +133,10 @@ function ProjectsHeading({ active }: { active: boolean }) {
         // SELECTED_WORK
       </motion.p>
 
-      <h2 className="rotate-1 text-5xl font-black md:text-6xl" aria-label={headingText}>
+      <h2
+        className="rotate-1 text-4xl font-black sm:text-5xl md:text-6xl"
+        aria-label={headingText}
+      >
         {headingText.split('').map((char, index) => (
           <motion.span
             key={`${char}-${index}`}
@@ -191,6 +194,7 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
           boxShadow: '14px 14px 0px 0px var(--card-hover-shadow)',
           transition: { type: 'spring', stiffness: 360, damping: 22 },
         }}
+        whileTap={{ scale: 0.98, y: -2 }}
       >
         <span
           aria-hidden
@@ -337,7 +341,7 @@ export function Projects() {
           variants={gridVariants}
           initial="hidden"
           animate={gridInView ? 'visible' : 'hidden'}
-          className="grid min-h-[80vh] grid-cols-1 gap-3 md:grid-cols-12 md:min-h-screen md:gap-4"
+          className="grid grid-cols-1 gap-3 md:min-h-screen md:grid-cols-12 md:gap-4"
         >
           {projects.map((project) => (
             <ProjectCard key={project.number} project={project} />
