@@ -125,7 +125,7 @@ function ProjectsHeading({ active }: { active: boolean }) {
   return (
     <div className="mb-10 text-left md:mb-16 md:text-right">
       <motion.p
-        className="mb-3 font-mono text-xs font-black tracking-[0.3em] text-white/40"
+        className="mb-3 font-mono text-xs font-black tracking-[0.3em] text-portfolio-ink/40 dark:text-black/40"
         initial={{ opacity: 0, x: 20 }}
         animate={active ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
         transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
@@ -159,7 +159,7 @@ function ProjectsHeading({ active }: { active: boolean }) {
       </h2>
 
       <motion.p
-        className="ml-auto mt-4 max-w-sm text-sm font-medium text-white/50"
+        className="ml-auto mt-4 max-w-sm text-sm font-medium text-portfolio-ink/55 dark:text-black/55"
         initial={{ opacity: 0, y: 10 }}
         animate={active ? { opacity: 0.5, y: 0 } : { opacity: 0, y: 10 }}
         transition={{ delay: 0.45, duration: 0.45 }}
@@ -186,7 +186,7 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
         target={isExternal ? '_blank' : undefined}
         rel={isExternal ? 'noopener noreferrer' : undefined}
         aria-label={`Open ${project.title} project`}
-        className={`group relative flex h-full flex-col justify-between overflow-hidden border-4 border-portfolio-accent bg-portfolio-cream text-portfolio-ink no-underline dark:border-white dark:bg-white dark:text-black ${project.padding}`}
+        className={`group relative flex h-full flex-col justify-between overflow-hidden border-4 border-portfolio-ink bg-white text-portfolio-ink no-underline dark:border-black dark:bg-white dark:text-black ${project.padding}`}
         whileHover={{
           y: -6,
           backgroundColor: 'var(--card-hover-bg)',
@@ -214,7 +214,7 @@ function ProjectCard({ project }: { project: (typeof projects)[number] }) {
         />
 
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-portfolio-accent transition-transform duration-500 group-hover:scale-x-100 dark:bg-black dark:group-hover:bg-white"
+          className="pointer-events-none absolute inset-x-0 top-0 h-1 origin-left scale-x-0 bg-portfolio-accent transition-transform duration-500 group-hover:scale-x-100 dark:bg-portfolio-ink dark:group-hover:bg-black"
           aria-hidden
         />
 
@@ -303,17 +303,17 @@ export function Projects() {
   return (
     <section
       ref={sectionRef}
-      className="relative z-20 overflow-hidden bg-portfolio-ink px-6 py-28 text-white transition-colors duration-500 md:px-8 md:py-32 dark:bg-black dark:text-white"
+      className="relative z-20 overflow-hidden bg-portfolio-cream px-6 py-28 text-portfolio-ink transition-colors duration-500 md:px-8 md:py-32 dark:bg-white dark:text-black"
     >
       <motion.div
         aria-hidden
-        className="bg-section-grid-projects pointer-events-none absolute inset-0"
+        className="bg-section-grid pointer-events-none absolute inset-0"
         style={{ opacity: gridOpacity }}
       />
 
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute right-0 top-16 flex whitespace-nowrap text-[15vw] font-black leading-none text-portfolio-accent/[0.12] md:top-10 dark:text-white/[0.035]"
+        className="pointer-events-none absolute right-0 top-16 flex whitespace-nowrap text-[15vw] font-black leading-none text-portfolio-ink/[0.05] md:top-10 dark:text-black/[0.04]"
         style={{ x: ghostX }}
       >
         <span className="pr-12">BUILD_LAUNCH_SHIP_</span>
@@ -324,13 +324,13 @@ export function Projects() {
         <motion.div ref={headingRef} style={{ x: headingX }}>
           <ProjectsHeading active={headingInView} />
           <motion.div
-            className="ml-auto mt-6 h-1 w-full max-w-md origin-right bg-portfolio-accent dark:bg-white"
+            className="ml-auto mt-6 h-1 w-full max-w-md origin-right bg-portfolio-ink dark:bg-black"
             style={{ scaleX: lineScale }}
           />
         </motion.div>
 
         <motion.p
-          className="mb-6 font-mono text-[10px] font-black tracking-[0.35em] text-portfolio-accent/50 md:mb-8 md:text-xs dark:text-white/30"
+          className="mb-6 font-mono text-[10px] font-black tracking-[0.35em] text-portfolio-ink/40 md:mb-8 md:text-xs dark:text-black/35"
           style={{ opacity: metaOpacity }}
         >
           04 ENTRIES — BENTO GRID

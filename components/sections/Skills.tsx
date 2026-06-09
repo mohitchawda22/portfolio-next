@@ -265,14 +265,13 @@ function SkillBlock({
   )
 }
 
-export function SkillsGrid({ active }: { active: boolean }) {
-  const gridRef = useRef<HTMLDivElement>(null)
+export function Skills() {
+  const sectionRef = useRef<HTMLElement>(null)
   const isDesktop = useIsDesktop()
-  const gridInView = useInView(gridRef, { once: true, margin: '-10% 0px' })
-  const show = active && gridInView
+  const headingInView = useInView(sectionRef, { once: true, margin: '-15% 0px' })
 
   const { scrollYProgress } = useScroll({
-    target: gridRef,
+    target: sectionRef,
     offset: ['start end', 'end start'],
   })
 
@@ -287,7 +286,10 @@ export function SkillsGrid({ active }: { active: boolean }) {
   const barProgresses = [bar0, bar1, bar2, bar3]
 
   return (
-    <div ref={gridRef} className="relative">
+    <section
+      ref={sectionRef}
+      className="relative z-20 overflow-hidden border-t-4 border-portfolio-accent bg-portfolio-lime px-6 py-24 text-portfolio-ink transition-colors duration-500 sm:py-28 md:px-8 md:py-32 dark:border-black dark:bg-white dark:text-black"
+    >
       <motion.div
         className="pointer-events-none absolute left-0 right-0 h-px bg-black/10"
         style={{ top: scanLineY }}
@@ -303,14 +305,28 @@ export function SkillsGrid({ active }: { active: boolean }) {
         aria-hidden
       />
 
-      <div className="relative">
-        <div className="mb-12 md:mb-16">
+      <div className="relative mx-auto max-w-7xl">
+        <div className="mb-16 md:mb-24">
           <p className="mb-3 font-mono text-xs font-black tracking-[0.35em] opacity-40">
-            // CORE_STACK
+            // LOAD_MODULE
           </p>
-          <h3 className="-rotate-2 text-4xl font-black sm:text-5xl md:text-6xl">
-            <ScrambleHeading text="TECHNICAL_SKILLS_" active={show} />
-          </h3>
+          <h2 className="-rotate-2 text-4xl font-black sm:text-5xl md:text-7xl">
+            <ScrambleHeading text="SKILLS_" active={headingInView} />
+          </h2>
+          <motion.div
+            className="mt-6 flex items-center gap-2 font-mono text-xs font-bold opacity-50"
+            initial={{ opacity: 0, x: -20 }}
+            animate={headingInView ? { opacity: 0.5, x: 0 } : { opacity: 0, x: -20 }}
+            transition={{ delay: 1.1, duration: 0.5 }}
+          >
+            <motion.span
+              animate={headingInView ? { opacity: [1, 0.2, 1] } : { opacity: 0 }}
+              transition={{ repeat: Infinity, duration: 1.2 }}
+            >
+              █
+            </motion.span>
+            INITIALIZING STACK...
+          </motion.div>
         </div>
 
         <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16">
@@ -320,7 +336,7 @@ export function SkillsGrid({ active }: { active: boolean }) {
                 key={skill.title}
                 skill={skill}
                 index={index}
-                inView={show}
+                inView={headingInView}
                 barProgress={barProgresses[index]}
               />
             ))}
@@ -335,13 +351,13 @@ export function SkillsGrid({ active }: { active: boolean }) {
                 key={skill.title}
                 skill={skill}
                 index={index + 2}
-                inView={show}
+                inView={headingInView}
                 barProgress={barProgresses[index + 2]}
               />
             ))}
           </motion.div>
         </div>
       </div>
-    </div>
+    </section>
   )
 }

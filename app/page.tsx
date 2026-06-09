@@ -5,7 +5,10 @@ import { Hero } from '@/components/sections/Hero'
 import { Background } from '@/components/sections/Background'
 import { Projects } from '@/components/sections/Projects'
 import { SkillsPhilosophy } from '@/components/sections/SkillsPhilosophy'
+import { Skills } from '@/components/sections/Skills'
+import { AboutMetrics } from '@/components/sections/AboutMetrics'
 import { Contact } from '@/components/sections/Contact'
+import { SiteFooter } from '@/components/sections/SiteFooter'
 
 export default function BoldDeveloperPortfolio() {
   return (
@@ -15,9 +18,12 @@ export default function BoldDeveloperPortfolio() {
         <CursorFollower />
         <Hero />
         <Background />
+        <AboutMetrics />
         <Projects />
         <SkillsPhilosophy />
+        <Skills />
         <Contact />
+        <SiteFooter />
       </ThemeTransitionShell>
     </div>
   )

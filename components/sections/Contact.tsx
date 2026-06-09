@@ -84,11 +84,16 @@ export function Contact() {
   return (
     <section
       ref={sectionRef}
-      className="relative z-20 overflow-hidden bg-portfolio-contact px-6 py-28 text-white transition-colors duration-500 md:px-8 md:py-32 dark:bg-black dark:text-white"
+      className="relative z-20 overflow-hidden border-t-4 border-portfolio-accent bg-portfolio-contact px-6 pb-12 pt-20 text-white transition-colors duration-500 sm:pb-14 sm:pt-24 md:px-8 md:pb-16 md:pt-28 dark:border-white dark:bg-black dark:text-white"
     >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent via-portfolio-ink/70 to-[#030303] dark:via-black/70 dark:to-[#030303]"
+      />
+
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.07]"
+        className="pointer-events-none absolute inset-0 opacity-[0.05]"
         style={{
           backgroundImage:
             'repeating-linear-gradient(90deg, #fff 0, #fff 1px, transparent 1px, transparent 80px)',
@@ -97,7 +102,7 @@ export function Contact() {
 
       <motion.div
         aria-hidden
-        className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 whitespace-nowrap text-[18vw] font-black leading-none text-portfolio-accent/[0.08] dark:text-white/[0.03]"
+        className="pointer-events-none absolute left-1/2 top-8 -translate-x-1/2 whitespace-nowrap text-[14vw] font-black leading-none text-portfolio-accent/[0.07] md:top-10 dark:text-white/[0.025]"
         style={{ y: ghostY }}
       >
         CONTACT_CONTACT_
@@ -119,7 +124,7 @@ export function Contact() {
           videoSrc={CONTACT_VIDEO_PRIMARY}
           fallbackSources={CONTACT_VIDEO_FALLBACKS}
           className="mx-auto max-w-6xl"
-          heightClass="h-[clamp(150px,24vw,320px)]"
+          heightClass="h-[clamp(120px,20vw,260px)]"
           loop
           muted
           autoPlay
@@ -140,7 +145,7 @@ export function Contact() {
         />
 
         <motion.div
-          className="mt-12 flex w-full flex-col items-stretch justify-center gap-4 px-2 sm:mt-14 sm:flex-row sm:items-center sm:gap-10 md:mt-16"
+          className="mt-10 flex w-full flex-col items-stretch justify-center gap-4 px-2 sm:mt-12 sm:flex-row sm:items-center sm:gap-8 md:mt-14"
           initial="hidden"
           animate={contentInView ? 'visible' : 'hidden'}
         >
@@ -162,7 +167,7 @@ export function Contact() {
 
         <motion.a
           href={EMAIL_URL}
-          className="mt-10 inline-block max-w-full break-all px-2 font-mono text-[clamp(0.7rem,3.2vw,1.5rem)] font-black tracking-wide sm:mt-12 sm:tracking-widest md:mt-14"
+          className="mt-8 inline-block max-w-full break-all px-2 font-mono text-[clamp(0.7rem,3.2vw,1.25rem)] font-black tracking-wide sm:mt-10 sm:tracking-widest"
           initial={{ opacity: 0, letterSpacing: '0.2em' }}
           animate={
             contentInView
