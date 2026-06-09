@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import Script from 'next/script'
 import { Geist, Geist_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
+import { ConsentAwareAnalytics } from '@/components/ConsentAwareAnalytics'
+import { CookieConsent } from '@/components/CookieConsent'
 import { SitePreloader } from '@/components/SitePreloader'
 import { PRELOADER_INIT_SCRIPT } from '@/lib/preloader-theme'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -62,9 +63,10 @@ export default function RootLayout({
             >
               {children}
             </SitePreloader>
+            <CookieConsent />
           </ThemeTransitionProvider>
         </ThemeProvider>
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        <ConsentAwareAnalytics />
       </body>
     </html>
   )
