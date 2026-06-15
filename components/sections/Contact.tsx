@@ -83,6 +83,7 @@ export function Contact() {
 
   return (
     <section
+      id="contact"
       ref={sectionRef}
       className="relative z-20 overflow-hidden border-t-4 border-portfolio-accent bg-portfolio-contact px-6 pb-12 pt-20 text-white transition-colors duration-500 sm:pb-14 sm:pt-24 md:px-8 md:pb-16 md:pt-28 dark:border-white dark:bg-black dark:text-white"
     >

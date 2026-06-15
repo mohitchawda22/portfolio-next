@@ -1,12 +1,89 @@
 'use client'
 
-import { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { useCallback, useRef } from 'react'
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { ArrowUpRight, Mail } from 'lucide-react'
 import { usePreloaderComplete } from '@/components/PixelWipePreloader'
 
 const slideTransition = {
   duration: 1.2,
   ease: [0.76, 0, 0.24, 1] as const,
+}
+
+function HeroContactButton({ isReady }: { isReady: boolean }) {
+  const reduceMotion = useReducedMotion()
+
+  const scrollToContact = useCallback(
+    (event: React.MouseEvent<HTMLAnchorElement>) => {
+      event.preventDefault()
+      document.getElementById('contact')?.scrollIntoView({
+        behavior: reduceMotion ? 'auto' : 'smooth',
+        block: 'start',
+      })
+    },
+    [reduceMotion]
+  )
+
+  return (
+    <motion.a
+      href="#contact"
+      onClick={scrollToContact}
+      aria-label="Go to contact section"
+      initial={false}
+      animate={{
+        opacity: isReady ? 1 : 0,
+        y: isReady ? 0 : 18,
+        rotate: isReady ? 0 : -4,
+        scale: isReady ? 1 : 0.9,
+      }}
+      transition={{
+        delay: isReady ? 1.35 : 0,
+        duration: 0.8,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      whileHover={
+        reduceMotion
+          ? undefined
+          : {
+              y: -6,
+              boxShadow: '12px 12px 0 0 var(--portfolio-ink)',
+            }
+      }
+      whileTap={{ scale: 0.97 }}
+      className="group relative flex items-stretch overflow-hidden border-2 border-portfolio-ink bg-portfolio-cream/95 font-mono text-[10px] font-black uppercase tracking-[0.22em] text-portfolio-ink shadow-[7px_7px_0_0_var(--portfolio-accent)] backdrop-blur-md transition-colors hover:bg-portfolio-accent dark:border-white dark:bg-black/90 dark:text-white dark:shadow-[7px_7px_0_0_rgba(255,255,255,0.95)] dark:hover:bg-white dark:hover:text-black sm:text-[11px]"
+    >
+      {!reduceMotion && (
+        <motion.span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent dark:via-portfolio-accent/30"
+          initial={{ x: '-120%' }}
+          animate={{ x: '220%' }}
+          transition={{
+            duration: 2.6,
+            repeat: Infinity,
+            repeatDelay: 1.4,
+            ease: [0.45, 0, 0.55, 1],
+          }}
+        />
+      )}
+
+      <span className="relative z-10 flex items-center justify-center border-r-2 border-portfolio-ink/15 bg-portfolio-accent px-3 py-3 text-portfolio-ink transition-colors group-hover:bg-portfolio-ink group-hover:text-portfolio-accent dark:border-white/15 dark:bg-white dark:text-black dark:group-hover:bg-portfolio-accent dark:group-hover:text-portfolio-ink sm:px-3.5 sm:py-3.5">
+        <Mail className="h-4 w-4 sm:h-[1.125rem] sm:w-[1.125rem]" strokeWidth={2.5} />
+      </span>
+
+      <span className="relative z-10 flex items-center gap-2 px-4 py-3 sm:gap-2.5 sm:px-5 sm:py-3.5">
+        <span className="text-portfolio-ink/45 dark:text-white/45">//</span>
+        <span>Let&apos;s talk</span>
+        <motion.span
+          aria-hidden
+          animate={reduceMotion ? undefined : { x: [0, 3, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+        >
+          <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" strokeWidth={2.5} />
+        </motion.span>
+      </span>
+    </motion.a>
+  )
 }
 
 function HeroCopy({
@@ -66,6 +143,7 @@ export function Hero() {
   const topY = useTransform(scrollYProgress, [0, 0.5], ['0%', '-100%'])
   const bottomY = useTransform(scrollYProgress, [0, 0.5], ['0%', '100%'])
   const indicatorOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
+  const contactOpacity = useTransform(scrollYProgress, [0, 0.18], [1, 0])
 
   return (
     <section
@@ -206,6 +284,13 @@ export function Hero() {
             </motion.div>
           </motion.div>
         </div>
+
+        <motion.div
+          style={{ opacity: contactOpacity }}
+          className="pointer-events-auto absolute bottom-6 right-4 z-40 sm:bottom-8 sm:right-5 md:right-8"
+        >
+          <HeroContactButton isReady={isReady} />
+        </motion.div>
 
         <motion.div
           initial={false}

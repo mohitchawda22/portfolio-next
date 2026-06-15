@@ -1,4 +1,5 @@
 import { CursorFollower } from '@/components/CursorFollower'
+import { LiquidMetalIconRing } from '@/components/LiquidMetalIconRing'
 import { ThemeSwitcher } from '@/components/ThemeSwitcher'
 import { ThemeTransitionShell } from '@/components/ThemeTransitionProvider'
 import { Hero } from '@/components/sections/Hero'
@@ -14,6 +15,7 @@ export default function BoldDeveloperPortfolio() {
   return (
     <div className="min-h-screen overflow-x-hidden bg-portfolio-cream text-portfolio-ink transition-colors duration-500 dark:bg-black dark:text-white">
       <ThemeSwitcher />
+      <LiquidMetalIconRing />
       <ThemeTransitionShell>
         <CursorFollower />
         <Hero />
